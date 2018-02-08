@@ -16,6 +16,9 @@ OS: Windows (macOS coming soon)
 - Install Arduino
 - Open preferences window
 - Enter http://arduino.esp8266.com/stable/package_esp8266com_index.json into Additional Board Manager URLs field
+- Open Boards Manager from Tools > Board menu and install esp8266 platform.
+
+All toolchains and libraries are installed!
 
 ##### Create new CMake Project
 
