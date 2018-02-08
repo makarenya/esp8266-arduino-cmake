@@ -14,4 +14,4 @@ include_directories(
 
 add_executable(firmware ${USER_SOURCES})
 
-ARDUINO(firmware AccelStepper ESP8266WiFi)
+ARDUINO(firmware ESP8266WiFi ESP8266WebServer ESP8266mDNS)
