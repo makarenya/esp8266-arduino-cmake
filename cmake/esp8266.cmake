@@ -15,7 +15,9 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     set(USER_LIBRARIES_ROOT "${USER_HOME}/Documents/Arduino/libraries")
 
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
-    set(RAW_USER_HOME $ENV{USERPROFILE})
+    if(NOT DEFINED RAW_USER_HOME)
+        set(RAW_USER_HOME $ENV{USERPROFILE})
+    endif()
     string(REPLACE "\\" "/" USER_HOME ${RAW_USER_HOME})
     set(SYSTEM_EXTENSION ".exe")
     set(RAW_ARDUINO_DIR "$ENV{LOCALAPPDATA}/Arduino15")
@@ -26,7 +28,6 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
 else()
     message(FATAL_ERROR Unsupported build platform.)
 endif()
-set(ESP8266_LIBRARIES_ROOT ${HARDWARE_ROOT}/libraries)
 
 # only esp8266 package inside arduino is interesing
 set(ARDUINO_ESP8266_HOME ${ARDUINO_DIR}/packages/esp8266)
@@ -39,6 +40,7 @@ set(TOOLCHAIN_BIN ${TOOLCHAIN_ROOT}/bin)
 # find hardware root directory
 file(GLOB HARDWARE_SUBDIRS LIST_DIRECTORIES=TRUE "${ARDUINO_ESP8266_HOME}/hardware/esp8266/*")
 list(GET HARDWARE_SUBDIRS 0 HARDWARE_ROOT)
+set(ESP8266_LIBRARIES_ROOT ${HARDWARE_ROOT}/libraries)
 
 # esptool location
 file(GLOB ESPTOOL_SUBDIRS LIST_DIRECTORIES=TRUE "${ARDUINO_ESP8266_HOME}/tools/esptool/*")
