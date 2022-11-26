@@ -14,6 +14,13 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
     set(SYSTEM_LIBRARIES_ROOT /Applications/Arduino.app/Contents/Java/libraries)
     set(USER_LIBRARIES_ROOT "${USER_HOME}/Documents/Arduino/libraries")
 
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+    set(USER_HOME $ENV{HOME})
+    set(SYSTEM_EXTENSION "")
+    set(ARDUINO_DIR "${USER_HOME}/.arduino15")
+    set(SYSTEM_LIBRARIES_ROOT /usr/lib/arduino/libraries)
+    set(USER_LIBRARIES_ROOT "${USER_HOME}/Arduino/libraries")
+
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
     if(NOT DEFINED RAW_USER_HOME)
         set(RAW_USER_HOME $ENV{USERPROFILE})
@@ -43,7 +50,11 @@ list(GET HARDWARE_SUBDIRS 0 HARDWARE_ROOT)
 set(ESP8266_LIBRARIES_ROOT ${HARDWARE_ROOT}/libraries)
 
 # esptool location
-file(GLOB ESPTOOL_SUBDIRS LIST_DIRECTORIES=TRUE "${ARDUINO_ESP8266_HOME}/tools/esptool/*")
+if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+    file(GLOB ESPTOOL_SUBDIRS LIST_DIRECTORIES=TRUE "${ARDUINO_ESP8266_HOME}/hardware/esp8266/*/tools/esptool/*")
+else()
+    file(GLOB ESPTOOL_SUBDIRS LIST_DIRECTORIES=TRUE "${ARDUINO_ESP8266_HOME}/tools/esptool/*")
+endif()
 list(GET ESPTOOL_SUBDIRS 0 ESPTOOL_DIR)
 set(ESPTOOL_APP ${ESPTOOL_DIR}/esptool${SYSTEM_EXTENSION})
 
